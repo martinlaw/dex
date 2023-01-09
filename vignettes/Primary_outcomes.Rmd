@@ -23,7 +23,8 @@ knitr::opts_chunk$set(
 
 ```{r load}
 library(librarian)
-librarian::shelf(here, readxl, metafor, dex, quiet = TRUE)
+library(dex)
+librarian::shelf(here, readxl, metafor, quiet = TRUE)
 
 dat <- read_excel(here("data", "Dex_metan.xlsx"),
                   range = "B3:T11",
