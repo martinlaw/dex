@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 ## Load data
 ```{r load}
 library(librarian)
-librarian::shelf(here, readxl, metafor, martinlaw/dex, quiet = TRUE)
+librarian::shelf(here, readxl, metafor, dex, quiet = TRUE)
 
 dat.second <- read_excel(here("data", "Dex_metan.xlsx"),
                          range = "B18:I64",
@@ -136,7 +136,7 @@ dat.pod2<- escalc(measure="MD",
 pm.pod2 <- rma(yi, vi, data=dat.pod2, method="PM")
 #weights(pm.pod2)
 dat.pod2
-#forest(pm.pod2)
+forest(pm.pod2)
 ```
 
 
