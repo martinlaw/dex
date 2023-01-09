@@ -137,9 +137,21 @@ forest(pmhk.ards,
 taf.atelectasis <- trimfill(pm.atelectasis)
 ### draw funnel plot with missing studies filled in
 funnel(taf.atelectasis, legend=TRUE)
+# OR and CI:
+exp(taf.atelectasis$beta)
+c(exp(taf.atelectasis$beta-taf.atelectasis$se), exp(taf.atelectasis$beta+taf.atelectasis$se))
 
 # Pneumonia
 taf.pneumonia <- trimfill(pm.pneumonia)
 funnel(taf.pneumonia, legend=TRUE)
+# OR and CI:
+exp(taf.pneumonia$beta)
+c(exp(taf.pneumonia$beta-taf.pneumonia$se), exp(taf.pneumonia$beta+taf.pneumonia$se))
 ```
 
+Trim and fill analysis on the atelectasis meta-analysis data estimates that there 
+are three studies missing. Removing the most extreme studies until there is no 
+asymmetry results in a summary estimate of 0.60 (95% CI (0.41, 0.88)), which is
+smaller but still statistically significant. However, we acknowledge that this 
+procedure 
+the total number of studies is small, 
