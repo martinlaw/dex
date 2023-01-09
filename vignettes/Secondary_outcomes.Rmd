@@ -87,6 +87,23 @@ forest(pm.resp,
        at=seq(from=0, to =8, by=2))
 ```
 
+### FEV1
+
+```{r fev1}
+dat.fev1<- escalc(measure="MD",
+                   m1i=m1i,
+                   sd1i=sd1i,
+                   n1i=n1i,
+                   m2i=m2i,
+                   sd2i=sd2i,
+                   n2i=n2i,
+                   data=dat.second[grep(pattern = "FEV1", x = dat.second$outcome), ],
+                   slab = study)
+
+pm.fev1 <- rma(yi, vi, data=dat.fev1, method="PM")
+forest(pm.fev1)
+```
+
 
 ### POD 1
 ```{r pod1}
@@ -117,7 +134,9 @@ dat.pod2<- escalc(measure="MD",
                   slab = study)
 
 pm.pod2 <- rma(yi, vi, data=dat.pod2, method="PM")
-forest(pm.pod2)
+#weights(pm.pod2)
+dat.pod2
+#forest(pm.pod2)
 ```
 
 
