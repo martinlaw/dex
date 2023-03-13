@@ -108,7 +108,7 @@ metafor::forest(pmhk.ards,
 #### Secondary analyses: Plateau pressure, peak pressure, resp compliance ####
 
 #### Load data ####
-dat.second <- readxl::read_excel(here("data", "Dex_metan.xlsx"), range = "B17:I64")
+dat.second <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"), range = "B17:I64")
 names(dat.second) <- c("study",
                        "m1i", "sd1i", "m2i", "sd2i",
                        "n1i", "n2i",
