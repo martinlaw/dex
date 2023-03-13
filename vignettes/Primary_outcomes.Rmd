@@ -133,16 +133,16 @@ metafor::forest(pmhk.ards,
 ```{r funnels}
 # Atelectasis:
 ### carry out trim-and-fill analysis
-taf.atelectasis <- trimfill(pm.atelectasis)
+taf.atelectasis <- metafor::trimfill(pm.atelectasis)
 ### draw funnel plot with missing studies filled in
-funnel(taf.atelectasis, legend=TRUE)
+metafor::funnel(taf.atelectasis, legend=TRUE)
 # OR and CI:
 exp(taf.atelectasis$beta)
 c(exp(taf.atelectasis$beta-taf.atelectasis$se), exp(taf.atelectasis$beta+taf.atelectasis$se))
 
 # Pneumonia
-taf.pneumonia <- trimfill(pm.pneumonia)
-funnel(taf.pneumonia, legend=TRUE)
+taf.pneumonia <- metafor::trimfill(pm.pneumonia)
+metafor::funnel(taf.pneumonia, legend=TRUE)
 # OR and CI:
 exp(taf.pneumonia$beta)
 c(exp(taf.pneumonia$beta-taf.pneumonia$se), exp(taf.pneumonia$beta+taf.pneumonia$se))
