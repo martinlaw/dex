@@ -1,9 +1,9 @@
 ---
 title: "Primary_outcomes"
-output: metafor::rmarkdown::html_vignette
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Primary_outcomes}
-  %\VignetteEngine{knitr::metafor::rmarkdown}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
