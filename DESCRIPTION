@@ -15,3 +15,8 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Imports: 
+    here,
+    librarian,
+    metafor,
+    readxl

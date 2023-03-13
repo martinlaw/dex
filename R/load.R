@@ -1,4 +1,3 @@
-library(librarian)
 librarian::shelf(here, readxl, metafor, martinlaw/dex)
 
 #### Load data ####
