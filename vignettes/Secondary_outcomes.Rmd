@@ -1,9 +1,9 @@
 ---
 title: "Secondary_outcomes"
-output: rmarkdown::html_vignette
+output: metafor::rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Secondary_outcomes}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::metafor::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -22,10 +22,10 @@ knitr::opts_chunk$set(
 
 ## Load data
 ```{r load}
-library(librarian)
-librarian::shelf(here, readxl, metafor, quiet = TRUE)
+#library(librarian)
+#librarian::shelf(here, readxl, metafor, quiet = TRUE)
 
-dat.second <- read_excel(here("data", "Dex_metan.xlsx"),
+dat.second <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"),
                          range = "B18:I64",
                          col_names = c("study",
                                        "m1i", "sd1i",
@@ -38,7 +38,7 @@ dat.second <- read_excel(here("data", "Dex_metan.xlsx"),
 ## Secondary Outcome Analysis
 ### Plateau pressure
 ```{r plateau}
-dat.plat <- escalc(measure="MD",
+dat.plat <- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -48,14 +48,14 @@ dat.plat <- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="Plateau Pressure"),
                    slab = study)
 
-pm.plat <- rma(yi, vi, data=dat.plat, method="PM")
-forest(pm.plat,
+pm.plat <- metafor::rma(yi, vi, data=dat.plat, method="PM")
+metafor::forest(pm.plat,
        at=seq(from=-8, to =2, by=2))
 ```
 
 ### Peak pressure
 ```{r peak}
-dat.peak <- escalc(measure="MD",
+dat.peak <- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -65,14 +65,14 @@ dat.peak <- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="Peak Pressure"),
                    slab = study)
 
-pm.peak <- rma(yi, vi, data=dat.peak, method="PM")
-forest(pm.peak,
+pm.peak <- metafor::rma(yi, vi, data=dat.peak, method="PM")
+metafor::forest(pm.peak,
        at=seq(from=-8, to =2, by=2))
 ```
 
 ### Respiratory Compliance:
 ```{r compliance}
-dat.resp <- escalc(measure="MD",
+dat.resp <- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -82,15 +82,15 @@ dat.resp <- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="Respiratory Compliance"),
                    slab = study)
 
-pm.resp <- rma(yi, vi, data=dat.resp, method="PM")
-forest(pm.resp,
+pm.resp <- metafor::rma(yi, vi, data=dat.resp, method="PM")
+metafor::forest(pm.resp,
        at=seq(from=0, to =8, by=2))
 ```
 
 ### FEV1
 
 ```{r fev1}
-dat.fev1<- escalc(measure="MD",
+dat.fev1<- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -100,14 +100,14 @@ dat.fev1<- escalc(measure="MD",
                    data=dat.second[grep(pattern = "FEV1", x = dat.second$outcome), ],
                    slab = study)
 
-pm.fev1 <- rma(yi, vi, data=dat.fev1, method="PM")
-forest(pm.fev1)
+pm.fev1 <- metafor::rma(yi, vi, data=dat.fev1, method="PM")
+metafor::forest(pm.fev1)
 ```
 
 
 ### POD 1
 ```{r pod1}
-dat.pod1<- escalc(measure="MD",
+dat.pod1<- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -117,13 +117,13 @@ dat.pod1<- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="FEV1 POD 1"),
                    slab = study)
 
-pm.pod1 <- rma(yi, vi, data=dat.pod1, method="PM")
-forest(pm.pod1)
+pm.pod1 <- metafor::rma(yi, vi, data=dat.pod1, method="PM")
+metafor::forest(pm.pod1)
 ```
 
 ### POD 2
 ```{r pod2}
-dat.pod2<- escalc(measure="MD",
+dat.pod2<- metafor::escalc(measure="MD",
                   m1i=m1i,
                   sd1i=sd1i,
                   n1i=n1i,
@@ -133,10 +133,10 @@ dat.pod2<- escalc(measure="MD",
                   data=dplyr::filter(dat.second, outcome=="FEV1 POD 2"),
                   slab = study)
 
-pm.pod2 <- rma(yi, vi, data=dat.pod2, method="PM")
+pm.pod2 <- metafor::rma(yi, vi, data=dat.pod2, method="PM")
 #weights(pm.pod2)
 dat.pod2
-forest(pm.pod2)
+metafor::forest(pm.pod2)
 ```
 
 

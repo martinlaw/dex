@@ -1,9 +1,9 @@
 ---
 title: "Primary_outcomes"
-output: rmarkdown::html_vignette
+output: metafor::rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Primary_outcomes}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::metafor::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -22,10 +22,10 @@ knitr::opts_chunk$set(
 ## Load data
 
 ```{r load}
-library(librarian)
-librarian::shelf(here, readxl, metafor, quiet = TRUE)
+#library(librarian)
+#librarian::shelf(here, readxl, metafor, quiet = TRUE)
 
-dat <- read_excel(here("data", "Dex_metan.xlsx"),
+dat <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"),
                   range = "B3:T11",
                   col_names=c("study", "n1i", "n2i",
                               "ai_atel", "bi_atel", "ci_atel", "di_atel",
@@ -41,22 +41,22 @@ Removed final row, containing no data (for Lee et al.)
 ### Atelectasis
 
 ```{r atelectasis}
-dat.atelectasis <- escalc(measure="OR",
+dat.atelectasis <- metafor::escalc(measure="OR",
                           ai=ai_atel,
                           bi=bi_atel,
                           ci=ci_atel,
                           di=di_atel,
                           data=dat,
                           slab = study)
-pm.atelectasis <- rma(yi, vi, data=dat.atelectasis, method="PM")
-forest(pm.atelectasis,
+pm.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM")
+metafor::forest(pm.atelectasis,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 ```
 
 ### Pneumonia
 ```{r pneumonia}
-dat.pneumonia <- escalc(measure="OR",
+dat.pneumonia <- metafor::escalc(measure="OR",
                           ai=ai_pneu,
                           bi=bi_pneu,
                           ci=ci_pneu,
@@ -64,15 +64,15 @@ dat.pneumonia <- escalc(measure="OR",
                           data=dat,
                           slab = study)
 
-pm.pneumonia <- rma(yi, vi, data=dat.pneumonia, method="PM")
-forest(pm.pneumonia,
+pm.pneumonia <- metafor::rma(yi, vi, data=dat.pneumonia, method="PM")
+metafor::forest(pm.pneumonia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 ```
 
 ### Hypoxemia
 ```{r hypoxemia}
-dat.hypoxemia <- escalc(measure="OR",
+dat.hypoxemia <- metafor::escalc(measure="OR",
                         ai=ai_hypo,
                         bi=bi_hypo,
                         ci=ci_hypo,
@@ -80,15 +80,15 @@ dat.hypoxemia <- escalc(measure="OR",
                         data=dat,
                         slab = study)
 
-pm.hypoxemia <- rma(yi, vi, data=dat.hypoxemia, method="PM")
-forest(pm.hypoxemia,
+pm.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM")
+metafor::forest(pm.hypoxemia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 ```
 
 ### ARDS
 ```{r ARDS}
-dat.ards <- escalc(measure="OR",
+dat.ards <- metafor::escalc(measure="OR",
                         ai=ai_ards,
                         bi=bi_ards,
                         ci=ci_ards,
@@ -96,34 +96,34 @@ dat.ards <- escalc(measure="OR",
                         data=dat,
                         slab = study)
 
-pm.ards <- rma(yi, vi, data=dat.ards, method="PM")
-forest(pm.ards,
+pm.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM")
+metafor::forest(pm.ards,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 ```
-Note: n=3 here, but n=2 in forest plot in PDF. Which is correct?
+Note: n=3 here, but n=2 in metafor::forest plot in PDF. Which is correct?
 
 
 ## Sensitivity Analysis
 HKSJ correction results in narrower CIs (plots not shown):
 ```{r sensitivity, eval=FALSE}
-pmhk.atelectasis <- rma(yi, vi, data=dat.atelectasis, method="PM", test="knha")
-forest(pmhk.atelectasis,
+pmhk.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM", test="knha")
+metafor::forest(pmhk.atelectasis,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
-pmhk.pneumonia <- rma(yi, vi, data=dat.pneumonia, method="PM", test="knha")
-forest(pmhk.pneumonia,
+pmhk.pneumonia <- metafor::rma(yi, vi, data=dat.pneumonia, method="PM", test="knha")
+metafor::forest(pmhk.pneumonia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
-pmhk.hypoxemia <- rma(yi, vi, data=dat.hypoxemia, method="PM", test="knha")
-forest(pmhk.hypoxemia,
+pmhk.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM", test="knha")
+metafor::forest(pmhk.hypoxemia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
-pmhk.ards <- rma(yi, vi, data=dat.ards, method="PM", test="knha")
-forest(pmhk.ards,
+pmhk.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM", test="knha")
+metafor::forest(pmhk.ards,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 ```
