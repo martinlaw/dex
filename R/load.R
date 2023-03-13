@@ -1,7 +1,5 @@
-librarian::shelf(here, readxl, metafor, martinlaw/dex)
-
 #### Load data ####
-dat <- read_excel(here("data", "Dex_metan.xlsx"), range = "B2:T11")
+dat <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"), range = "B2:T11")
 names(dat) <- c("study", "n1i", "n2i",
                 "ai_atel", "bi_atel", "ci_atel", "di_atel",
                 "ai_pneu", "bi_pneu", "ci_pneu", "di_pneu",
@@ -17,7 +15,7 @@ dat
 
 #### Atelectasis ####
 
-dat.atelectasis <- escalc(measure="OR",
+dat.atelectasis <- metafor::escalc(measure="OR",
                           ai=ai_atel,
                           bi=bi_atel,
                           ci=ci_atel,
@@ -25,21 +23,21 @@ dat.atelectasis <- escalc(measure="OR",
                           data=dat,
                           slab = study)
 
-pm.atelectasis <- rma(yi, vi, data=dat.atelectasis, method="PM")
-forest(pm.atelectasis,
+pm.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM")
+metafor::forest(pm.atelectasis,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
 # Sensitivity analysis: HKSJ correction results in narrower CIs:
-pmhk.atelectasis <- rma(yi, vi, data=dat.atelectasis, method="PM", test="knha")
-forest(pmhk.atelectasis,
+pmhk.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM", test="knha")
+metafor::forest(pmhk.atelectasis,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
 
 #### Pneumonia ####
 
-dat.pneumonia <- escalc(measure="OR",
+dat.pneumonia <- metafor::escalc(measure="OR",
                           ai=ai_pneu,
                           bi=bi_pneu,
                           ci=ci_pneu,
@@ -47,21 +45,21 @@ dat.pneumonia <- escalc(measure="OR",
                           data=dat,
                           slab = study)
 
-pm.pneumonia <- rma(yi, vi, data=dat.pneumonia, method="PM")
-forest(pm.pneumonia,
+pm.pneumonia <- metafor::rma(yi, vi, data=dat.pneumonia, method="PM")
+metafor::forest(pm.pneumonia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
 # Sensitivity analysis: HKSJ correction results in narrower CIs:
-pmhk.pneumonia <- rma(yi, vi, data=dat.pneumonia, method="PM", test="knha")
-forest(pmhk.pneumonia,
+pmhk.pneumonia <- metafor::rma(yi, vi, data=dat.pneumonia, method="PM", test="knha")
+metafor::forest(pmhk.pneumonia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
 
 #### Hypoxemia ####
 
-dat.hypoxemia <- escalc(measure="OR",
+dat.hypoxemia <- metafor::escalc(measure="OR",
                         ai=ai_hypo,
                         bi=bi_hypo,
                         ci=ci_hypo,
@@ -69,14 +67,14 @@ dat.hypoxemia <- escalc(measure="OR",
                         data=dat,
                         slab = study)
 
-pm.hypoxemia <- rma(yi, vi, data=dat.hypoxemia, method="PM")
-forest(pm.hypoxemia,
+pm.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM")
+metafor::forest(pm.hypoxemia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
 # Sensitivity analysis: HKSJ correction results in narrower CIs:
-pmhk.hypoxemia <- rma(yi, vi, data=dat.hypoxemia, method="PM", test="knha")
-forest(pmhk.hypoxemia,
+pmhk.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM", test="knha")
+metafor::forest(pmhk.hypoxemia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
@@ -84,7 +82,7 @@ forest(pmhk.hypoxemia,
 
 #### ARDS ####
 
-dat.ards <- escalc(measure="OR",
+dat.ards <- metafor::escalc(measure="OR",
                         ai=ai_ards,
                         bi=bi_ards,
                         ci=ci_ards,
@@ -92,31 +90,31 @@ dat.ards <- escalc(measure="OR",
                         data=dat,
                         slab = study)
 
-pm.ards <- rma(yi, vi, data=dat.ards, method="PM")
-forest(pm.ards,
+pm.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM")
+metafor::forest(pm.ards,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
 # Sensitivity analysis: HKSJ correction results in narrower CIs:
-pmhk.ards <- rma(yi, vi, data=dat.ards, method="PM", test="knha")
-forest(pmhk.ards,
+pmhk.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM", test="knha")
+metafor::forest(pmhk.ards,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 
-### NOTE: n=3 here, but n=2 in forest plot in PDF. Find out why.
+### NOTE: n=3 here, but n=2 in metafor::forest plot in PDF. Find out why.
 
 
 
 #### Secondary analyses: Plateau pressure, peak pressure, resp compliance ####
 
 #### Load data ####
-dat.second <- read_excel(here("data", "Dex_metan.xlsx"), range = "B17:I64")
+dat.second <- readxl::read_excel(here("data", "Dex_metan.xlsx"), range = "B17:I64")
 names(dat.second) <- c("study",
                        "m1i", "sd1i", "m2i", "sd2i",
                        "n1i", "n2i",
                        "outcome")
 # Plateau pressure:
-dat.plat <- escalc(measure="MD",
+dat.plat <- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -126,12 +124,12 @@ dat.plat <- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="Plateau Pressure"),
                    slab = study)
 
-pm.plat <- rma(yi, vi, data=dat.plat, method="PM")
-forest(pm.plat,
+pm.plat <- metafor::rma(yi, vi, data=dat.plat, method="PM")
+metafor::forest(pm.plat,
        at=seq(from=-8, to =2, by=2))
 
 # Peak pressure:
-dat.peak <- escalc(measure="MD",
+dat.peak <- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -141,12 +139,12 @@ dat.peak <- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="Peak Pressure"),
                    slab = study)
 
-pm.peak <- rma(yi, vi, data=dat.peak, method="PM")
-forest(pm.peak,
+pm.peak <- metafor::rma(yi, vi, data=dat.peak, method="PM")
+metafor::forest(pm.peak,
        at=seq(from=-8, to =2, by=2))
 
 # Respiratory Compliance:
-dat.resp <- escalc(measure="MD",
+dat.resp <- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -156,13 +154,13 @@ dat.resp <- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="Respiratory Compliance"),
                    slab = study)
 
-pm.resp <- rma(yi, vi, data=dat.resp, method="PM")
-forest(pm.resp,
+pm.resp <- metafor::rma(yi, vi, data=dat.resp, method="PM")
+metafor::forest(pm.resp,
        at=seq(from=0, to =8, by=2))
 
 
 # POD1:
-dat.pod1<- escalc(measure="MD",
+dat.pod1<- metafor::escalc(measure="MD",
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
@@ -172,11 +170,11 @@ dat.pod1<- escalc(measure="MD",
                    data=dplyr::filter(dat.second, outcome=="FEV1 POD 1"),
                    slab = study)
 
-pm.pod1 <- rma(yi, vi, data=dat.pod1, method="PM")
-forest(pm.pod1)
+pm.pod1 <- metafor::rma(yi, vi, data=dat.pod1, method="PM")
+metafor::forest(pm.pod1)
 
 # POD2:
-dat.pod2<- escalc(measure="MD",
+dat.pod2<- metafor::escalc(measure="MD",
                   m1i=m1i,
                   sd1i=sd1i,
                   n1i=n1i,
@@ -186,19 +184,19 @@ dat.pod2<- escalc(measure="MD",
                   data=dplyr::filter(dat.second, outcome=="FEV1 POD 2"),
                   slab = study)
 
-pm.pod2 <- rma(yi, vi, data=dat.pod2, method="PM")
-forest(pm.pod2)
+pm.pod2 <- metafor::rma(yi, vi, data=dat.pod2, method="PM")
+metafor::forest(pm.pod2)
 
 
 #### Funnel plots ####
 
 ### carry out trim-and-fill analysis
-taf.atelectasis <- trimfill(pm.atelectasis)
+taf.atelectasis <- metafor::trimfill(pm.atelectasis)
 ### draw funnel plot with missing studies filled in
-funnel(taf.atelectasis, legend=TRUE)
+metafor::funnel(taf.atelectasis, legend=TRUE)
 
-taf.pneumonia <- trimfill(pm.pneumonia)
-funnel(taf.pneumonia, legend=TRUE)
+taf.pneumonia <- metafor::trimfill(pm.pneumonia)
+metafor::funnel(taf.pneumonia, legend=TRUE)
 
 
 #usethis::use_vignette("Secondary_outcomes")
