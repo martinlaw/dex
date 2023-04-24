@@ -7,6 +7,7 @@ names(dat) <- c("study", "n1i", "n2i",
                 "ai_ards", "bi_ards", "ci_ards", "di_ards"
                 )
 dat
+library(metafor)
 
 # There is no data for Lee et al. (final row)
 
@@ -24,15 +25,36 @@ dat.atelectasis <- metafor::escalc(measure="OR",
                           slab = study)
 
 pm.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM")
+
+#par(mar=c(10.8,0,1.3,1.3), mgp=c(3,0.2,0), tcl=-0.2)
 metafor::forest(pm.atelectasis,
        atransf=exp,
-       at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
+       at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
+       ilab = cbind(ai_atel, n1i, bi_atel, n2i),
+       ilab.xpos = c(-9.5,-8.5,-7.5,-6.5),
+       cex=.75, header=c("Author(s) and Year"),
+       xlab=""
+       )
+text(c(-9.5,-8.5,-7.5,-6.5), pm.atelectasis$k+1.5, c("E", "T", "E", "T"))
+text(c(-9,-7),     pm.atelectasis$k+2, c("Dexmed.", "Placebo"))
+par(xpd=NA)
+text(log(c(0.0005, 45)), -3.4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5)
+# text(-14.5, -1, pos=4, bquote(paste("Overall ", I^2, " = ", .(formatC(pm.atelectasis$I2, digits=0, format="f")), "%")))
 
 # Sensitivity analysis: HKSJ correction results in narrower CIs:
 pmhk.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM", test="knha")
 metafor::forest(pmhk.atelectasis,
-       atransf=exp,
-       at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
+                atransf=exp,
+                at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
+                ilab = cbind(ai_atel, n1i, bi_atel, n2i),
+                ilab.xpos = c(-9.5,-8.5,-7.5,-6.5),
+                cex=.75, header=c("Author(s) and Year"),
+                xlab=""
+)
+text(c(-9.5,-8.5,-7.5,-6.5), pm.atelectasis$k+1.5, c("E", "T", "E", "T"))
+text(c(-9,-7),     pm.atelectasis$k+2, c("Dexmed.", "Placebo"))
+par(xpd=NA)
+text(log(c(0.0005, 45)), -3.4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5)
 
 
 #### Pneumonia ####
