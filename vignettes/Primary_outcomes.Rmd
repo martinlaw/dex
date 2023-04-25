@@ -128,26 +128,52 @@ metafor::forest(pmhk.pneumonia,
                 atransf=exp,
                 at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
                 ilab = cbind(ai_pneu, n1i, bi_pneu, n2i),
-                ilab.xpos = c(-9.5,-8.5,-7.5,-6.5),
+                ilab.xpos = c(-9.5,-8.5,-7.5,-6.5)+1.75,
                 cex=.75, header=c("Author(s) and Year"),
                 xlab=""
 )
-text(c(-9.5,-8.5,-7.5,-6.5), pmhk.pneumonia$k+1.5, c("E", "T", "E", "T"), cex=0.75)
-text(c(-9,-7),     pmhk.pneumonia$k+2, c("Dexmed.", "Placebo"), cex=0.75)
+text(c(-9.5,-8.5,-7.5,-6.5)+1.75, pmhk.pneumonia$k+1.5, c("E", "T", "E", "T"), cex=0.75)
+text(c(-9,-7)+1.75,     pmhk.pneumonia$k+2, c("Dexmed.", "Placebo"), cex=0.75)
 par(xpd=NA)
-text(log(c(0.0005, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
+text(log(c(0.005, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
 ```
 
 ```{r hksj hypox}
 pmhk.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM", test="knha")
+# metafor::forest(pmhk.hypoxemia,
+#        atransf=exp,
+#        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 metafor::forest(pmhk.hypoxemia,
-       atransf=exp,
-       at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
+                atransf=exp,
+                at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
+                ilab = cbind(ai_hypo, n1i, bi_hypo, n2i),
+                ilab.xpos = c(-7.5,-7,-6.5,-6)+1.75,
+                cex=.75, header=c("Author(s) and Year"),
+                xlab=""
+)
+text(c(-7.5,-7,-6.5,-6)+1.75, pmhk.hypoxemia$k+1.5, c("E", "T", "E", "T"), cex=0.75)
+text(c(-7.25,-6)+1.75,     pmhk.hypoxemia$k+2, c("Dexmed.", "Placebo"), cex=0.75)
+par(xpd=NA)
+text(log(c(0.005, 40)), -3, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
+```
 
+```{r hksj ARDS}
 pmhk.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM", test="knha")
+# metafor::forest(pmhk.ards,
+#        atransf=exp,
+#        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 metafor::forest(pmhk.ards,
-       atransf=exp,
-       at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
+                atransf=exp,
+                at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
+                ilab = cbind(ai_ards, n1i, bi_ards, n2i),
+                ilab.xpos = c(-9.5,-8.5,-7.5,-6.5)+1.75,
+                cex=.75, header=c("Author(s) and Year"),
+                xlab=""
+)
+text(c(-9.5,-8.5,-7.5,-6.5)+1.75, pmhk.ards$k+1.5, c("E", "T", "E", "T"), cex=0.75)
+text(c(-9,-7)+1.75,     pmhk.ards$k+2, c("Dexmed.", "Placebo"), cex=0.75)
+par(xpd=NA)
+text(log(c(0.005, 45)), -3.5, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
 ```
 
 
