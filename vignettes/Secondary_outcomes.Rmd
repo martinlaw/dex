@@ -38,7 +38,7 @@ dat.second <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"),
 ## Secondary Outcome Analysis
 ### Plateau pressure
 ```{r plateau}
-dat.plat <- metafor::escalc(measure="MD",
+dat.plat <- metafor::escalc(measure="MD", 
                    m1i=m1i,
                    sd1i=sd1i,
                    n1i=n1i,
