@@ -137,7 +137,7 @@ metafor::forest(pm.atelectasis,
 ### Pneumonia
 ```{r pneumonia}
 dat.pneumonia <- metafor::escalc(measure="OR",
-                          ai=ai_pneu,
+                          ai=1:9,
                           bi=bi_pneu,
                           ci=ci_pneu,
                           di=di_pneu,
@@ -155,7 +155,7 @@ metafor::forest(pm.pneumonia,
 ### Hypoxemia
 ```{r hypoxemia}
 dat.hypoxemia <- metafor::escalc(measure="OR",
-                        ai=ai_hypo,
+                        ai=1:9,
                         bi=bi_hypo,
                         ci=ci_hypo,
                         di=di_hypo,
@@ -173,7 +173,7 @@ metafor::forest(pm.hypoxemia,
 ### ARDS
 ```{r ARDS}
 dat.ards <- metafor::escalc(measure="OR",
-                        ai=ai_ards,
+                        ai=1:9,
                         bi=bi_ards,
                         ci=ci_ards,
                         di=di_ards,
