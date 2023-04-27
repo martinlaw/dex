@@ -3,8 +3,10 @@ title: "Primary_outcomes"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Primary_outcomes}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -110,6 +112,10 @@ For ardsmonia: risk on dex is `r round(100*risk.ards.dex, 1)`%, risk on control 
 ### Atelectasis
 
 ```{r atelectasis}
+class(dat$ai_atel)
+class(dat$ai_pneu)
+class(dat$ai_hypo)
+class(dat$ai_ards)
 dat.atelectasis <- metafor::escalc(measure="OR",
                           ai=ai_atel,
                           bi=bi_atel,
@@ -118,8 +124,8 @@ dat.atelectasis <- metafor::escalc(measure="OR",
                           data=dat,
                           slab = study)
 pm.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM")
-metafor::regtest(pm.atelectasis)
-metafor::regtest(pm.atelectasis, model="lm")
+# metafor::regtest(pm.atelectasis)
+# metafor::regtest(pm.atelectasis, model="lm")
 metafor::forest(pm.atelectasis,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
@@ -136,8 +142,8 @@ dat.pneumonia <- metafor::escalc(measure="OR",
                           slab = study)
 
 pm.pneumonia <- metafor::rma(yi, vi, data=dat.pneumonia, method="PM")
-metafor::regtest(pm.pneumonia)
-metafor::regtest(pm.pneumonia, model="lm")
+# metafor::regtest(pm.pneumonia)
+# metafor::regtest(pm.pneumonia, model="lm")
 metafor::forest(pm.pneumonia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
@@ -154,8 +160,8 @@ dat.hypoxemia <- metafor::escalc(measure="OR",
                         slab = study)
 
 pm.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM")
-metafor::regtest(pm.hypoxemia)
-metafor::regtest(pm.hypoxemia, model="lm")
+# metafor::regtest(pm.hypoxemia)
+# metafor::regtest(pm.hypoxemia, model="lm")
 metafor::forest(pm.hypoxemia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
@@ -172,8 +178,8 @@ dat.ards <- metafor::escalc(measure="OR",
                         slab = study)
 
 pm.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM")
-metafor::regtest(pm.ards)
-metafor::regtest(pm.ards, model="lm")
+# metafor::regtest(pm.ards)
+# metafor::regtest(pm.ards, model="lm")
 metafor::forest(pm.ards,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
@@ -217,9 +223,6 @@ text(log(c(0.005, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=
 
 ```{r hksj hypox}
 pmhk.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM", test="knha")
-# metafor::forest(pmhk.hypoxemia,
-#        atransf=exp,
-#        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 metafor::forest(pmhk.hypoxemia,
                 atransf=exp,
                 at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
@@ -236,9 +239,6 @@ text(log(c(0.005, 40)), -3, c("Favours Dexmedetomidine","Favours Placebo"), pos=
 
 ```{r hksj ARDS}
 pmhk.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM", test="knha")
-# metafor::forest(pmhk.ards,
-#        atransf=exp,
-#        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
 metafor::forest(pmhk.ards,
                 atransf=exp,
                 at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
