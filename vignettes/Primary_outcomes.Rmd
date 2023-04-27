@@ -49,6 +49,9 @@ dat[wu.row, "n2i"] <- 30
 
 
 ## Descriptive statistics
+
+In the meta-analysis, there are `r sum(dat$n1i)` participants in the dex group and `r sum(dat$n2i)` participants in the control group. 
+
 ### Atelectasis
 ```{r descriptive atel, echo=FALSE}
 study.index.atel <- which(!is.na(dat$ai_atel))
