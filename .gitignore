@@ -1,3 +1,5 @@
 .Rproj.user
 docs
 inst/doc
+check_var_for_Lee_and_Janus.R
+load.R
