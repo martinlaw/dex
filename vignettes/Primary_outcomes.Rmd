@@ -26,16 +26,85 @@ knitr::opts_chunk$set(
 #librarian::shelf(here, readxl, metafor, quiet = TRUE)
 
 dat <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"),
-                  range = "B3:T11",
+                  range = "B3:AB11",
                   col_names=c("study", "n1i", "n2i",
-                              "ai_atel", "bi_atel", "ci_atel", "di_atel",
-                              "ai_pneu", "bi_pneu", "ci_pneu", "di_pneu",
-                              "ai_hypo", "bi_hypo", "ci_hypo", "di_hypo",
-                              "ai_ards", "bi_ards", "ci_ards", "di_ards")
+                              "ai_atel", "bi_atel", "ci_atel", "di_atel", "per_dex_atel", "per_con_atel", 
+                              "ai_pneu", "bi_pneu", "ci_pneu", "di_pneu", "per_dex_pneu", "per_con_pneu", 
+                              "ai_hypo", "bi_hypo", "ci_hypo", "di_hypo", "per_dex_hypo", "per_con_hypo", 
+                              "ai_ards", "bi_ards", "ci_ards", "di_ards", "per_dex_ards", "per_con_ards")
                   )
 print(dat, width=Inf)
 ```
-Removed final row, containing no data (for Lee et al.)
+Did not include final two rows containing Quingming et al., as these are not included in the meta-analysis paper.
+
+Wu et al. is missing sample size data. The sample size is 30 on each arm, and can be inferred by the pneumonia data. Add this:
+
+```{r correct dat}
+wu.row <- which(dat$study=="Wu et al")
+dat[wu.row, "n1i"] <- 30
+dat[wu.row, "n2i"] <- 30
+```
+
+
+## Descriptive statistics
+### Atelectasis
+```{r descriptive atel, echo=FALSE}
+study.index.atel <- which(!is.na(dat$ai_atel))
+dat.atel <- dat[study.index.atel, c("n1i", "n2i",
+                        "ai_atel", "bi_atel", "ci_atel", "di_atel")]
+sums.atel <- colSums(dat.atel)
+
+risk.atel.dex <- sums.atel["ai_atel"]/sums.atel["n1i"]
+risk.atel.con <- sums.atel["bi_atel"]/sums.atel["n2i"]
+risk.diff.atel <- risk.atel.con - risk.atel.dex
+risk.ratio.atel <- risk.atel.dex/risk.atel.con
+```
+For Atelectasis: risk on dex is `r round(100*risk.atel.dex, 1)`%, risk on control is  `r round(100*risk.atel.con, 1)`%. Risk difference is  `r round(100*risk.diff.atel, 1)`%, risk ratio is `r round(risk.ratio.atel, 2)`.
+
+### Pneumonia
+```{r descriptive pneu, echo=FALSE}
+study.index.pneu <- which(!is.na(dat$ai_pneu))
+dat.pneu <- dat[study.index.pneu, c("n1i", "n2i",
+                        "ai_pneu", "bi_pneu", "ci_pneu", "di_pneu")]
+sums.pneu <- colSums(dat.pneu)
+
+risk.pneu.dex <- sums.pneu["ai_pneu"]/sums.pneu["n1i"]
+risk.pneu.con <- sums.pneu["bi_pneu"]/sums.pneu["n2i"]
+risk.diff.pneu <- risk.pneu.con - risk.pneu.dex
+risk.ratio.pneu <- risk.pneu.dex/risk.pneu.con
+```
+For pneumonia: risk on dex is `r round(100*risk.pneu.dex, 1)`%, risk on control is  `r round(100*risk.pneu.con, 1)`%. Risk difference is  `r round(100*risk.diff.pneu, 1)`%, risk ratio is `r round(risk.ratio.pneu, 2)`.
+
+### Hypoxemia
+```{r descriptive hypo, echo=FALSE}
+study.index.hypo <- which(!is.na(dat$ai_hypo))
+dat.hypo <- dat[study.index.hypo, c("n1i", "n2i",
+                        "ai_hypo", "bi_hypo", "ci_hypo", "di_hypo")]
+sums.hypo <- colSums(dat.hypo)
+
+risk.hypo.dex <- sums.hypo["ai_hypo"]/sums.hypo["n1i"]
+risk.hypo.con <- sums.hypo["bi_hypo"]/sums.hypo["n2i"]
+risk.diff.hypo <- risk.hypo.con - risk.hypo.dex
+risk.ratio.hypo <- risk.hypo.dex/risk.hypo.con
+```
+For hypomonia: risk on dex is `r round(100*risk.hypo.dex, 1)`%, risk on control is  `r round(100*risk.hypo.con, 1)`%. Risk difference is  `r round(100*risk.diff.hypo, 1)`%, risk ratio is `r round(risk.ratio.hypo, 2)`.
+
+
+
+### ARDS
+```{r descriptive ards, echo=FALSE}
+study.index.ards <- which(!is.na(dat$ai_ards))
+dat.ards <- dat[study.index.ards, c("n1i", "n2i",
+                        "ai_ards", "bi_ards", "ci_ards", "di_ards")]
+sums.ards <- colSums(dat.ards)
+
+risk.ards.dex <- sums.ards["ai_ards"]/sums.ards["n1i"]
+risk.ards.con <- sums.ards["bi_ards"]/sums.ards["n2i"]
+risk.diff.ards <- risk.ards.con - risk.ards.dex
+risk.ratio.ards <- risk.ards.dex/risk.ards.con
+```
+For ardsmonia: risk on dex is `r round(100*risk.ards.dex, 1)`%, risk on control is  `r round(100*risk.ards.con, 1)`%. Risk difference is  `r round(100*risk.diff.ards, 1)`%, risk ratio is `r round(risk.ratio.ards, 2)`.
+
 
 ## Main Analysis
 ### Atelectasis
@@ -210,3 +279,5 @@ asymmetry results in a summary estimate of 0.60 (95% CI (0.41, 0.88)), which is
 smaller but still statistically significant. However, we acknowledge that this 
 procedure 
 the total number of studies is small, 
+
+
