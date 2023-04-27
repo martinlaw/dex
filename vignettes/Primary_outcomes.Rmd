@@ -111,12 +111,7 @@ For ardsmonia: risk on dex is `r round(100*risk.ards.dex, 1)`%, risk on control 
 ## Main Analysis
 ### Atelectasis
 
-```{r atelectasis, eval=FALSE}
-class(dat$ai_atel)
-class(dat$ai_pneu)
-class(dat$ai_hypo)
-class(dat$ai_ards)
-
+```{r atelectasis}
 # test.dat <- dat[study.index.atel, c("study", "n1i", "n2i",
 #                         "ai_atel", "bi_atel", "ci_atel", "di_atel")]
 dat.atelectasis <- metafor::escalc(measure="OR",
@@ -124,7 +119,7 @@ dat.atelectasis <- metafor::escalc(measure="OR",
                           bi=bi_atel,
                           ci=ci_atel,
                           di=di_atel,
-                          data=dat.atel, 
+                          data=dat, 
                           slab = study)
 pm.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM")
 # metafor::regtest(pm.atelectasis)
@@ -135,7 +130,7 @@ metafor::forest(pm.atelectasis,
 ```
 
 ### Pneumonia
-```{r pneumonia, eval=FALSE}
+```{r pneumonia}
 dat.pneumonia <- metafor::escalc(measure="OR",
                           ai=ai_pneu,
                           bi=bi_pneu,
@@ -153,7 +148,7 @@ metafor::forest(pm.pneumonia,
 ```
 
 ### Hypoxemia
-```{r hypoxemia, eval=FALSE}
+```{r hypoxemia}
 dat.hypoxemia <- metafor::escalc(measure="OR",
                         ai=ai_hypo,
                         bi=bi_hypo,
@@ -171,7 +166,7 @@ metafor::forest(pm.hypoxemia,
 ```
 
 ### ARDS
-```{r ARDS, eval=FALSE}
+```{r ARDS}
 dat.ards <- metafor::escalc(measure="OR",
                         ai=ai_ards,
                         bi=bi_ards,
@@ -192,7 +187,7 @@ Note: n=3 here, but n=2 in metafor::forest plot in PDF. Which is correct?
 
 ## Sensitivity Analysis
 HKSJ correction results in narrower CIs:
-```{r hksj atel, eval=FALSE}
+```{r hksj atel}
 pmhk.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM", test="knha")
 metafor::forest(pmhk.atelectasis,
                 atransf=exp,
@@ -208,7 +203,7 @@ par(xpd=NA)
 text(log(c(0.001, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
 ```
 
-```{r hksj pneu, eval=FALSE}
+```{r hksj pneu}
 pmhk.pneumonia <- metafor::rma(yi, vi, data=dat.pneumonia, method="PM", test="knha")
 metafor::forest(pmhk.pneumonia,
                 atransf=exp,
@@ -224,7 +219,7 @@ par(xpd=NA)
 text(log(c(0.005, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
 ```
 
-```{r hksj hypox, eval=FALSE}
+```{r hksj hypox}
 pmhk.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM", test="knha")
 metafor::forest(pmhk.hypoxemia,
                 atransf=exp,
@@ -240,7 +235,7 @@ par(xpd=NA)
 text(log(c(0.005, 40)), -3, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
 ```
 
-```{r hksj ARDS, eval=FALSE}
+```{r hksj ARDS}
 pmhk.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM", test="knha")
 metafor::forest(pmhk.ards,
                 atransf=exp,
@@ -258,7 +253,7 @@ text(log(c(0.005, 45)), -3.5, c("Favours Dexmedetomidine","Favours Placebo"), po
 
 
 ## Funnel plots
-```{r funnels, eval=FALSE}
+```{r funnels}
 # Atelectasis:
 ### carry out trim-and-fill analysis
 taf.atelectasis <- metafor::trimfill(pm.atelectasis)
