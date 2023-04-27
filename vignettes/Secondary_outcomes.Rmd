@@ -3,8 +3,10 @@ title: "Secondary_outcomes"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Secondary_outcomes}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -26,7 +28,7 @@ knitr::opts_chunk$set(
 #librarian::shelf(here, readxl, metafor, quiet = TRUE)
 
 dat.second <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"),
-                         range = "B18:I64",
+                         range = "B18:I73",
                          col_names = c("study",
                                        "m1i", "sd1i",
                                        "m2i", "sd2i",
@@ -132,11 +134,35 @@ dat.pod2<- metafor::escalc(measure="MD",
                   n2i=n2i,
                   data=dplyr::filter(dat.second, outcome=="FEV1 POD 2"),
                   slab = study)
-
+dat.pod2
 pm.pod2 <- metafor::rma(yi, vi, data=dat.pod2, method="PM")
-#weights(pm.pod2)
+weights(pm.pod2)
 dat.pod2
 metafor::forest(pm.pod2)
 ```
 
+### Length of Stay
+```{r LOS}
+dat.los <- metafor::escalc(measure="MD",
+                  m1i=m1i,
+                  sd1i=sd1i,
+                  n1i=n1i,
+                  m2i=m2i,
+                  sd2i=sd2i,
+                  n2i=n2i,
+                  data=dplyr::filter(dat.second, outcome=="LOS"),
+                  slab = study)
 
+pm.los <- metafor::rma(yi, vi, data=dat.los, method="PM")
+dat.los
+metafor::forest(pm.los)
+```
+
+Excluding outlier Jannu et al.:
+
+```{r los exc. Jannu}
+pm.los.exc.jannu <- metafor::leave1out(pm.los)
+metafor::forest(pm.los.exc.jannu$estimate, sei=pm.los.exc.jannu$se, header=TRUE, xlab="Leave One Out Estimate", refline=coef(pm.los))
+```
+
+Note in the above figure that Study 4 is Jannu et al., hence this row gives the summary estimate when Jannu et al. is excluded.

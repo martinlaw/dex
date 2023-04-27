@@ -49,6 +49,8 @@ dat.atelectasis <- metafor::escalc(measure="OR",
                           data=dat,
                           slab = study)
 pm.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM")
+metafor::regtest(pm.atelectasis)
+metafor::regtest(pm.atelectasis, model="lm")
 metafor::forest(pm.atelectasis,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
@@ -65,6 +67,8 @@ dat.pneumonia <- metafor::escalc(measure="OR",
                           slab = study)
 
 pm.pneumonia <- metafor::rma(yi, vi, data=dat.pneumonia, method="PM")
+metafor::regtest(pm.pneumonia)
+metafor::regtest(pm.pneumonia, model="lm")
 metafor::forest(pm.pneumonia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
@@ -81,6 +85,8 @@ dat.hypoxemia <- metafor::escalc(measure="OR",
                         slab = study)
 
 pm.hypoxemia <- metafor::rma(yi, vi, data=dat.hypoxemia, method="PM")
+metafor::regtest(pm.hypoxemia)
+metafor::regtest(pm.hypoxemia, model="lm")
 metafor::forest(pm.hypoxemia,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
@@ -97,6 +103,8 @@ dat.ards <- metafor::escalc(measure="OR",
                         slab = study)
 
 pm.ards <- metafor::rma(yi, vi, data=dat.ards, method="PM")
+metafor::regtest(pm.ards)
+metafor::regtest(pm.ards, model="lm")
 metafor::forest(pm.ards,
        atransf=exp,
        at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
