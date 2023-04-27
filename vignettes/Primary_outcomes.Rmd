@@ -120,7 +120,7 @@ class(dat$ai_ards)
 test.dat <- dat[study.index.atel, c("study", "n1i", "n2i",
                         "ai_atel", "bi_atel", "ci_atel", "di_atel")]
 dat.atelectasis <- metafor::escalc(measure="OR",
-                          ai=ai_atel,
+                          ai=1:8, # xxxxx
                           bi=bi_atel,
                           ci=ci_atel,
                           di=di_atel,
