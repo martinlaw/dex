@@ -28,11 +28,12 @@ knitr::opts_chunk$set(
 #librarian::shelf(here, readxl, metafor, quiet = TRUE)
 
 dat.second <- readxl::read_excel(here::here("data", "Dex_metan.xlsx"),
-                         range = "B18:I73",
+                         range = "B17:K79",
                          col_names = c("study",
                                        "m1i", "sd1i",
                                        "m2i", "sd2i",
                                        "n1i", "n2i",
+                                       "summary1", "summary2",
                                        "outcome")
                          )
 ```
