@@ -116,12 +116,15 @@ class(dat$ai_atel)
 class(dat$ai_pneu)
 class(dat$ai_hypo)
 class(dat$ai_ards)
+
+test.dat <- dat[study.index.atel, c("study", "n1i", "n2i",
+                        "ai_atel", "bi_atel", "ci_atel", "di_atel")]
 dat.atelectasis <- metafor::escalc(measure="OR",
                           ai=ai_atel,
                           bi=bi_atel,
                           ci=ci_atel,
                           di=di_atel,
-                          data=dat,
+                          data=test.dat, # XXXXX
                           slab = study)
 pm.atelectasis <- metafor::rma(yi, vi, data=dat.atelectasis, method="PM")
 # metafor::regtest(pm.atelectasis)
