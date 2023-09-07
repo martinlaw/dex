@@ -47,6 +47,22 @@ dat[wu.row, "n1i"] <- 30
 dat[wu.row, "n2i"] <- 30
 ```
 
+For the subgroup analysis based on TV, we must add this TV do the data:
+
+```{r}
+TV.6.or.less <- c("No", # Shi
+                  "Yes", # Xie
+                  "No", # Meng
+                  "Yes", # Zhang
+                  "Yes", # Wu
+                  NA, # Jannu
+                  "Yes", # Lee (n=50)
+                  NA, # Lee (n=100)
+                  NA # Zhou
+                  )
+dat$TV.6.or.less <- TV.6.or.less
+```
+
 
 ## Descriptive statistics
 
@@ -282,3 +298,96 @@ procedure
 the total number of studies is small, 
 
 
+## Subgroup analysis: TV
+### Atelectasis
+#### TV <=6mL/kg
+```{r}
+dat.atelectasis.TV.lo <- metafor::escalc(measure="OR",
+                          ai=ai_atel,
+                          bi=bi_atel,
+                          ci=ci_atel,
+                          di=di_atel,
+                          data=dat, 
+                          slab = study,
+                          subset=TV.6.or.less=="Yes")
+pm.atelectasis.TV.lo <- metafor::rma(yi, vi, data=dat.atelectasis.TV.lo, method="PM")
+metafor::forest(pm.atelectasis.TV.lo,
+                atransf=exp,
+                at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
+                ilab = cbind(ai_atel, n1i, bi_atel, n2i),
+                ilab.xpos = c(-9.5,-8.5,-7.5,-6.5)+1.75,
+                cex=.75, header=c("Author(s) and Year"),
+                xlab=""
+)
+text(c(-9.5,-8.5,-7.5,-6.5)+1.75, pm.atelectasis.TV.lo$k+1.5, c("E", "T", "E", "T"), cex=0.75)
+text(c(-9,-7)+1.75,     pm.atelectasis.TV.lo$k+2, c("Dexmed.", "Placebo"), cex=0.75)
+par(xpd=NA)
+text(log(c(0.005, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
+```
+
+#### TV >6mL/kg
+```{r}
+dat.atelectasis.TV.hi <- metafor::escalc(measure="OR",
+                          ai=ai_atel,
+                          bi=bi_atel,
+                          ci=ci_atel,
+                          di=di_atel,
+                          data=dat, 
+                          slab = study,
+                          subset=TV.6.or.less=="No")
+pm.atelectasis.TV.hi <- metafor::rma(yi, vi, data=dat.atelectasis.TV.hi, method="PM")
+metafor::forest(pm.atelectasis.TV.hi,
+       atransf=exp,
+       at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 2, 5, 10)))
+```
+
+### Pneumonia
+#### TV <=6mL/kg
+```{r}
+dat.pneumonia.TV.lo <- metafor::escalc(measure="OR",
+                          ai=ai_pneu,
+                          bi=bi_pneu,
+                          ci=ci_pneu,
+                          di=di_pneu,
+                          data=dat, 
+                          slab = study,
+                          subset=TV.6.or.less=="Yes")
+pm.pneumonia.TV.lo <- metafor::rma(yi, vi, data=dat.pneumonia.TV.lo, method="PM")
+metafor::forest(pm.pneumonia.TV.lo,
+                atransf=exp,
+                at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
+                ilab = cbind(ai_pneu, n1i, bi_pneu, n2i),
+                ilab.xpos = c(-9.5,-8.5,-7.5,-6.5)+1.75,
+                cex=.75, header=c("Author(s) and Year"),
+                xlab=""
+)
+text(c(-9.5,-8.5,-7.5,-6.5)+1.75, pm.pneumonia.TV.lo$k+1.5, c("E", "T", "E", "T"), cex=0.75)
+text(c(-9,-7)+1.75,     pm.pneumonia.TV.lo$k+2, c("Dexmed.", "Placebo"), cex=0.75)
+par(xpd=NA)
+text(log(c(0.005, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
+```
+
+#### TV >6mL/kg
+```{r}
+dat.pneumonia.TV.hi <- metafor::escalc(measure="OR",
+                          ai=ai_pneu,
+                          bi=bi_pneu,
+                          ci=ci_pneu,
+                          di=di_pneu,
+                          data=dat, 
+                          slab = study,
+                          subset=TV.6.or.less=="No")
+pm.pneumonia.TV.hi <- metafor::rma(yi, vi, data=pm.pneumonia.TV.hi, method="PM")
+metafor::forest(pm.pneumonia.TV.lo,
+                atransf=exp,
+                at=log(c(0.002, 0.01, 0.03, 0.1, 0.4, 1, 2, 5, 10)),
+                ilab = cbind(ai_pneu, n1i, bi_pneu, n2i),
+                ilab.xpos = c(-9.5,-8.5,-7.5,-6.5)+1.75,
+                cex=.75, header=c("Author(s) and Year"),
+                xlab=""
+)
+text(c(-9.5,-8.5,-7.5,-6.5)+1.75, pm.pneumonia.TV.lo$k+1.5, c("E", "T", "E", "T"), cex=0.75)
+text(c(-9,-7)+1.75,     pm.pneumonia.TV.lo$k+2, c("Dexmed.", "Placebo"), cex=0.75)
+par(xpd=NA)
+text(log(c(0.005, 45)), -4, c("Favours Dexmedetomidine","Favours Placebo"), pos=c(4,2), offset=-0.5, cex=0.75)
+```
